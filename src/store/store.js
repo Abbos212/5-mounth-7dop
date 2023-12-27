@@ -6,8 +6,4 @@ const store = configureStore({
     reducer: {usersSlice}
 })
 
-
-
-
-
 export default store

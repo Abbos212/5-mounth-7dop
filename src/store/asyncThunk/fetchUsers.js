@@ -1,21 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllUser } from "../../api/index";
+import { getUser } from "../../api/index";
 
-
-const fetchAllUsers =  createAsyncThunk(
+const fetchUsers =  createAsyncThunk(
     'users/getUsers',
     async (payload, thunkAPI) => {
-              const response = await getAllUser()
+              const response = await getUser()
         
               console.log(response);
 
         return response.data
-
-
     }
 )
 
-
-export { fetchAllUsers }
+export { fetchUsers }
 
 

@@ -3,23 +3,18 @@ import React, { useState } from "react";
 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllUsers } from "./store/asyncThunk/fetchAllUsers";
-
-
+import { fetchUsers } from "./store/asyncThunk/fetchUsers";
 import { fetchAddUser } from "./reducers/fetchAddUser";
-
 
 function App() {
   const [inputOne, setInputOne] = useState('')
   const [inputTwo, setInputTwo] = useState('')
 
-
-
   const dispatch = useDispatch()
   const { users } = useSelector((state) => state.usersSlice)
   useEffect(() => {
     console.log('useEffect');
-    dispatch(fetchAllUsers())
+    dispatch(fetchUsers())
   }, [])
   return (
     <div className="App">
@@ -43,7 +38,7 @@ function App() {
         <input id={'age'}/>
         <button type="button" onClick={() =>{
           dispatch(fetchAddUser({name:inputOne, age: inputTwo}))
-          dispatch(fetchAllUsers())
+          dispatch(fetchUsers())
         }}>
           Сохронять
         </button>

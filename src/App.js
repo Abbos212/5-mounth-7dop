@@ -1,25 +1,83 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+
+
+import { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAllUsers } from "./store/asyncThunk/fetchAllUsers";
+
+
+import { fetchAddUser } from "./reducers/fetchAddUser";
+
 
 function App() {
+  const [inputOne, setInputOne] = useState('')
+  const [inputTwo, setInputTwo] = useState('')
+
+
+
+  const dispatch = useDispatch()
+  const { users } = useSelector((state) => state.usersSlice)
+  useEffect(() => {
+    console.log('useEffect');
+    dispatch(fetchAllUsers())
+  }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    
+    <h1 className="title">
+
+      Список пользователей
+
+    </h1>
+    <form>
+      <label htmlFor='name'>
+        Имя
+      </label>
+      <input id={'name'} onChange={(event) => {
+        setInputOne(event.target.value)
+      }}/>
+      <label htmlFor={'age'} onChange={(event) => {
+        setInputTwo(event.target.value)
+      }}>
+        Возраст:
+        <input id={'age'}/>
+        <button type="button" onClick={() =>{
+          dispatch(fetchAddUser({name:inputOne, age: inputTwo}))
+          dispatch(fetchAllUsers())
+        }}>
+          Сохронять
+        </button>
+        <button>
+          Сбросить
+        </button>
+      </label>
+   
+    </form>
+    <table className="table table-condensed table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Имя</th>
+            <th>возраст</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            users.length > 0 ?
+            users.map((item) => <tr>
+              <td>{item.id}</td>
+              <td>{item.name}</td>
+              <td>{item.age}</td>
+            </tr>) : ''
+          }
+        </tbody>
+      </table>
     </div>
   );
 }
 
 export default App;
+
+
+
